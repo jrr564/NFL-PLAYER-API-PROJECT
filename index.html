@@ -14,17 +14,33 @@
 </head>
 <body>
 	<div class="jumbotron">
-		<h1>
+		<h1 id="header">
 			<span><img id="logo" src="assets/images/NFL-Logo.png"></span>
 			PLAYER PROFILE
-			<form class="pull-right">
+		</h1>
+		<form id="search">
 			 	<div class="form-group">
-	          		<input type="text" class="form-control" placeholder="Search Player">
+	          		<input type="text" placeholder="Search Player">
 	          		<button type="submit" class="btn btn-default">Submit</button>
 	        	</div>
-			</form>
-		</h1>
-		
+		</form>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3>RECENTLY SEARCHED PLAYERS</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table">
+	            <thead>
+	              <tr>
+	                <th scope="col">NAME</th>
+	                <th scope="col">TEAM</th>
+	                <th scope="col">POSITION</th>
+	              </tr>
+	            </thead>
+	            <tbody id="tableBody"></tbody>
+          	</table>
+		</div>
 	</div>
 </body>
 </html>

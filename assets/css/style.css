@@ -1,11 +1,46 @@
+body {
+	font-family: Verdana, Geneva, sans-serif;
+	box-sizing: border-box;
+}
+
+.jumbotron {
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
 #logo {
-	width: 200px;
+	width: 250px;
+	height: auto;
 }
 
-
-
-
-h1 {
+h1, h2, h3 {
 	font-family: 'Alegreya', serif;
-	color: #d4111b
 }
+
+h3 {
+	margin-top: 1px;
+    margin-bottom: 1px;
+}
+#search {
+	padding: 0 20px 10px;
+	font-size: 22px;
+}
+
+#header {
+	font-size: 90px;
+}
+
+.panel-heading {
+	padding: 5px 15px 5px;
+}
+
+.panel {
+/*	border: 5px solid #d4111b;*/
+	margin-right: 20px;
+	margin-left: 10px;
+}
+
+.input {
+	font-size: 18px;
+}
+
