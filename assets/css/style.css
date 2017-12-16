@@ -2,6 +2,14 @@ body {
 	font-family: Verdana, Geneva, sans-serif;
 	box-sizing: border-box;
 }
+.panel-title {
+	font-size: 24px;
+}
+
+.containers {
+	margin-left: 20px;
+	margin-right: 20px;
+}
 
 .jumbotron {
 	padding-top: 5px;
@@ -43,4 +51,14 @@ h3 {
 .input {
 	font-size: 18px;
 }
+
+#headshot {
+	background-color: #eeeeee;
+	width: 200px;
+	height: auto;
+	border-radius: 50%;
+	background:repeating-radial-gradient(#eeeeee, #eeeeee 5px, white 5px, white 10px);
+	border: 5px solid #eeeeee;
+}
+
 
