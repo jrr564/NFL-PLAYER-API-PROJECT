@@ -25,23 +25,102 @@
 	        	</div>
 		</form>
 	</div>
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<h3>RECENTLY SEARCHED PLAYERS</h3>
+
+	<!-- recently searched player box -->
+	
+
+	<!-- Player Info and APIs once player is selected -->
+	<div class="containers">
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+			        <h1 class="panel-title">RECENTLY SEARCHED PLAYERS</h1>
+				</div>
+				<div class="panel-body">
+					<table class="table">
+			            <thead>
+			              <tr>
+			                <th scope="col">NAME</th>
+			                <th scope="col">TEAM</th>
+			                <th scope="col">POSITION</th>
+			              </tr>
+			            </thead>
+			            <tbody id="tableBody"></tbody>
+		          	</table>
+				</div>
+			</div>
 		</div>
-		<div class="panel-body">
-			<table class="table">
-	            <thead>
-	              <tr>
-	                <th scope="col">NAME</th>
-	                <th scope="col">TEAM</th>
-	                <th scope="col">POSITION</th>
-	              </tr>
-	            </thead>
-	            <tbody id="tableBody"></tbody>
-          	</table>
+		<div class="col-md-7">
+			<!-- player image and info -->
+			<div class="row">
+				<div class="panel panel-default" id="id-box">
+					<div class="panel-heading">
+				        <h1 class="panel-title">PLAYER INFO</h1>
+				    </div>
+				    <div class="panel-body">
+				    	<img id="headshot" src="assets/images/marshawn.png">
+				    </div>
+				</div>
+			</div>
+			<!-- stats panel -->
+			<div class="row">
+				<div class="panel panel-default" id="stats">
+					<div class="panel-heading">
+				        <h1 class="panel-title">STATISTICS</h1>
+				    </div>
+				</div>
+			</div>
+			<!-- news panel -->
+			<div class="row">
+				<div class="panel panel-default" id="stats">
+					<div class="panel-heading">
+				        <h1 class="panel-title">NEWS FEED</h1>
+				    </div>
+				</div>
+			</div>
 		</div>
+
+		<div class="col-md-5">
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+					    <h1 class="panel-title">GAME INFO</h1>
+					</div>
+				   	<div class="panel-body">
+				        <div id="schedule"></div>
+			            <div id="weather"></div>
+			            <div id="ticket"></div>
+			        </div>
+			    </div>
+			</div>
+			<div class="row">
+				<div class="panel panel-default">
+				    <div class="panel-heading">
+				        <h1 class="panel-title">MAP</h1>
+				    </div>
+				    <div id="mapBox" class="panel-body">
+				    	<div id="map">
+				    	</div>
+				    </div>
+				</div>
+			</div>
+			<div class="row">
+					<div class="panel panel-default">
+					<div class="panel-heading">
+				        <h1 class="panel-title">ARREST RECORD</h1>
+				    </div>
+				    <div id="arrestRecord" class="panel-body">
+				    	<div id="map">
+				    	</div>
+				    </div>
+				</div>
+			</div>					
 	</div>
+		
+	
+	
+
+	
 	
 	<!-- Added - JQuery -->
   	<script src="https://code.jquery.com/jquery.js"></script>
@@ -58,10 +137,10 @@
   	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKLYsQVmErYgXMy5tNIcqrfKA1qghivdQ&callback=initMap"></script>
 
 	<!-- Added - MP -->
-	<script type="text/javascript" src="assets/javascript/app2.js"></script>
+	<!-- <script type="text/javascript" src="assets/javascript/app2.js"></script> -->
 
   	<!-- Code to the JavaScript File -->
-  	<script src="app.js"></script>
+  	<script src="assets/javascript/app.js"></script>
 	
 	
 </body>
