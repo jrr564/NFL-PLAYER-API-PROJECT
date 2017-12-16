@@ -61,4 +61,15 @@ h3 {
 	border: 5px solid #eeeeee;
 }
 
+#mapBox {
+      height: 400px;
+      width: 100%;
+      display: inline-block;
+
+      border: 1px solid;
+    } 
+
+    #map {
+      height: 100%;
+    }
 
