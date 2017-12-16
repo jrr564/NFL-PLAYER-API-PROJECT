@@ -230,6 +230,8 @@ function arrestRecord() {
     }
   });
 }
+
+arrestRecord();
 // arrestRecord
 
 //function to search player name
