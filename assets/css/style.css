@@ -29,13 +29,21 @@ h3 {
 	margin-top: 1px;
     margin-bottom: 1px;
 }
+
+h4 {
+	font-weight: bold;
+	text-decoration: overline;
+	text-decoration: underline;
+}
+
 #search {
 	padding: 0 20px 10px;
 	font-size: 22px;
 }
 
 #header {
-	font-size: 90px;
+	font-size: 100px;
+	 color: #333;
 }
 
 .panel-heading {
@@ -66,7 +74,7 @@ h3 {
       width: 100%;
       display: inline-block;
 
-      border: 1px solid;
+      border: 1px solid #eeeeee;
     } 
 
     #map {

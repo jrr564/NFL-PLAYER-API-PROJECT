@@ -114,14 +114,14 @@ function gameScheduleQuery(team) {
 
     var gameTime = game.date + " " + game.time;
 
-    var date = moment(gameTime, "YYYY-MM-DD hh:mm A").format("YYYY-MM-DD HH:mm");
+    var date = moment(gameTime, "YYYY-MM-DD hh:mm A").format("YYYY-MM-DD h:mm");
 
-    $("#schedule").html("<h4>Next Game: </h4>");
+    $("#schedule").html("<h4>Next Game </h4>");
 
 
     var div = $("<div>").append(date);
  
-    div.append("<div>" + awayTeam + "&nbsp&nbsp@&nbsp&nbsp" + homeTeam + "</div>");
+    div.append("<div>" + awayTeam + "&nbspat&nbsp" + homeTeam + "</div>");
     
     div.append("<div>" + stadium + "</div><br>");
     $("#schedule").append(div);
@@ -150,16 +150,17 @@ function searchWeather(lat, lon){
       }
     }
     var weather = response.list[index];
+    console.log(weather);
     var icon = $("<img>").attr("src", "http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png");
     var city = $("<strong>").text(response.city.name);
     city.append(icon);
     var div = $("<div>").text();
     //div.append(icon);
-    $("#weather").html("<h4>GameDay Weather: </h4>");
+    $("#weather").html("<h4>Gameday Weather </h4>");
     $("#weather").append(city);
-    $("#weather").append("<div>Feels like&nbsp&nbsp&nbsp&nbsp" + Math.round(weather.main.temp) + "°F </div>");
-    $("#weather").append("<div>Wind&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + weather.wind.speed + "&nbspmph</div>");
-    $("#weather").append("<div>Humidity&nbsp&nbsp&nbsp" + weather.main.humidity + "%</div><br>");
+    $("#weather").append("<div>Temperature: " + Math.round(weather.main.temp) + "°F </div>");
+    $("#weather").append("<div>Wind: " + weather.wind.speed + "&nbspmph</div>");
+    $("#weather").append("<div>Humidity: " + weather.main.humidity + "%</div><br>");
 
     console.log(weather.weather[0].description);
   })
@@ -181,11 +182,11 @@ function searchTicket() {
     //console.log(response._embedded.events[0].priceRanges[0].min);
     //console.log(response._embedded.events[0].priceRanges[0].max);
     var event = response._embedded.events[0];
-    $("#ticket").html("<h4>TicketMaster: </h4>");
+    $("#ticket").html("<h4>TicketMaster </h4>");
     var link = $("<a>").attr("href", event.url).attr("target", "_blank").text("Buy Tickets");
     $("#ticket").append(link);
 
-    var price = $("<div>").text("Price Ranges: " + event.priceRanges[0].min + " USD to " + event.priceRanges[0].max + " USD");
+    var price = $("<div>").text("Price: $" + event.priceRanges[0].min + " to $" + event.priceRanges[0].max);
     $("#ticket").append(price);
 
   });
@@ -219,9 +220,9 @@ function arrestRecord() {
     for (var i = 0; i < results.length; i++) {
         //var crimeDiv = $("<div>");
         //crimeDiv.addClass("crime");
-        var p1 = $("<h4>").text("CRIME: " + results[i].Crime_category);
-        var p2 = $("<h5>").text("YEAR: " + results[i].Year);
-        var p = $("<p>").text("ARREST DESCRIPTION: " + results[i].Description);
+        var p1 = $("<h4>").text("Violation: " + results[i].Crime_category);
+        var p2 = $("<h5>").text("Date: " + results[i].Date);
+        var p = $("<p>").text(" Description: " + results[i].Description);
         // var p3 = $("<p>").text("Outcome: " + results[i].Outcome);
         // $(".container").prepend(p3);
         $("#arrestRecord").prepend(p);
