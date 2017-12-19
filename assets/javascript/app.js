@@ -412,11 +412,11 @@ function searchWeather(lat, lon){
     city.append(icon);
     var div = $("<div>").text();
     //div.append(icon);
-    $("#weather").html("<h4>GameDay Weather: </h4>");
+    $("#weather").html("<h4>Gameday Weather</h4>");
     $("#weather").append(city);
-    $("#weather").append("<div>Feels like&nbsp&nbsp&nbsp&nbsp" + Math.round(weather.main.temp) + "°F </div>");
-    $("#weather").append("<div>Wind&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + weather.wind.speed + "&nbspmph</div>");
-    $("#weather").append("<div>Humidity&nbsp&nbsp&nbsp" + weather.main.humidity + "%</div><br>");
+    $("#weather").append("<div>Temp: " + Math.round(weather.main.temp) + "°F </div>");
+    $("#weather").append("<div>Wind Speed: " + weather.wind.speed + "&nbspmph</div>");
+    $("#weather").append("<div>Humidity: " + weather.main.humidity + "%</div><br>");
 
     // console.log(weather.weather[0].description);
   })
