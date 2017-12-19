@@ -16,18 +16,46 @@
 	<div class="jumbotron">
 		<h1 id="header">
 			<span><img id="logo" src="assets/images/NFL-Logo.png"></span>
-			PLAYER PROFILE 
+			PLAYER PROFILE
 		</h1>
 		<!-- search box -->
 		<form id="search">
 			 	<div class="form-group">
-	          		<input type="text" placeholder="Search Player">
-	          		<button type="submit" class="btn btn-default">Submit</button>
+			 		<!-- MP added search for first and last namees and id for input and button -->
+	          		<input type="text" placeholder="First Name" id="searchFN">
+
+	          		<input type="text" placeholder="Last Name" id="searchLN">	
+
+	          		<button type="submit" class="btn btn-default" id="submit-Button">Submit</button>          		
 	        	</div>
 		</form>
 	</div>
 
+
+
+<!-- ===============MP Added=================== -->
+	<div class="panel panel-default" id="searchPanel">
+		<div class="panel-heading">
+			<h3>SELECT A PLAYER BELOW</h3>
+		</div>
+		<div class="panel-body">
+			<table class="table" id="tableSearchList">
+				<thead>
+					<tr>
+		                <th scope="col">NAME</th>
+		                <th scope="col">TEAM</th>
+		                <th scope="col">POSITION</th>						
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+<!-- ===============MP Added=================== -->
+
+
+
 	<!-- recently searched player box -->
+
 	<div class="containers">
 		<div class="row">
 			<div class="panel panel-default">
@@ -48,6 +76,7 @@
 				</div>
 			</div>
 		</div>
+<div id="resultsBox">
 		<!-- Player Info and APIs once player is selected -->
 		<div class="col-md-7">
 			<!-- player image and info -->
@@ -58,6 +87,13 @@
 				    </div>
 				    <div class="panel-body">
 				    	<img id="headshot" src="assets/images/marshawn.png">
+				    	<h3 id="playerName"></h3>
+				    	<h3 id="playerTeam"></h3>
+				    	<h3 id="playerPosition"></h3>
+				    	<h3 id="playerNum"></h3>
+				    	<h3 id="playerHeight"></h3>
+				    	<h3 id="playerWeight"></h3>
+				    	<h3 id="playerAge"></h3>
 				    </div>
 				</div>
 			</div>
@@ -75,6 +111,7 @@
 					<div class="panel-heading">
 				        <h1 class="panel-title">NEWS FEED</h1>
 				    </div>
+				    <dir class="panel-body" id="playerNewsContainer"></dir>
 				</div>
 			</div>
 		</div>
@@ -118,7 +155,7 @@
 				</div>
 			</div>					
 	</div>
-		
+</div>		
 	
 	
 
