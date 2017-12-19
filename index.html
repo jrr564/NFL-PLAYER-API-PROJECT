@@ -39,7 +39,7 @@
 			<h3>SELECT A PLAYER BELOW</h3>
 		</div>
 		<div class="panel-body">
-			<table class="table" id="tableSearchList">
+			<table class="table">
 				<thead>
 					<tr>
 		                <th scope="col">NAME</th>
@@ -47,6 +47,7 @@
 		                <th scope="col">POSITION</th>						
 					</tr>
 				</thead>
+				<tbody id="tableSearchList"></tbody>
 			</table>
 		</div>
 	</div>
@@ -76,6 +77,7 @@
 				</div>
 			</div>
 		</div>
+
 <div id="resultsBox">
 		<!-- Player Info and APIs once player is selected -->
 		<div class="col-md-7">
@@ -86,14 +88,18 @@
 				        <h1 class="panel-title">PLAYER INFO</h1>
 				    </div>
 				    <div class="panel-body">
-				    	<img id="headshot" src="assets/images/marshawn.png">
-				    	<h3 id="playerName"></h3>
-				    	<h3 id="playerTeam"></h3>
-				    	<h3 id="playerPosition"></h3>
-				    	<h3 id="playerNum"></h3>
-				    	<h3 id="playerHeight"></h3>
-				    	<h3 id="playerWeight"></h3>
-				    	<h3 id="playerAge"></h3>
+				    	<div class="row">
+				    		<img id="headshot" src="" class="col-md-6">
+					    	<div id="playerInfo" class="col-md-6">
+						    	<h3 id="playerName"></h3>
+						    	<h3 id="playerTeam"></h3>
+						    	<h3 id="playerPosition"></h3>
+						    	<h3 id="playerNum"></h3>
+						    	<h3 id="playerHeight"></h3>
+						    	<h3 id="playerWeight"></h3>
+						    	<h3 id="playerAge"></h3>				    		
+					    	</div>				    		
+				    	</div>
 				    </div>
 				</div>
 			</div>

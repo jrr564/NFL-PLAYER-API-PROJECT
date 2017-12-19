@@ -29,21 +29,13 @@ h3 {
 	margin-top: 1px;
     margin-bottom: 1px;
 }
-
-h4 {
-	font-weight: bold;
-	text-decoration: overline;
-	text-decoration: underline;
-}
-
 #search {
 	padding: 0 20px 10px;
 	font-size: 22px;
 }
 
 #header {
-	font-size: 100px;
-	 color: #333;
+	font-size: 90px;
 }
 
 .panel-heading {
@@ -74,10 +66,18 @@ h4 {
       width: 100%;
       display: inline-block;
 
-      border: 1px solid #eeeeee;
+      border: 1px solid;
     } 
 
     #map {
       height: 100%;
     }
 
+.players:hover {
+	background-color: yellow;
+}
+
+
+.headline {
+	font-weight: bold;
+}
