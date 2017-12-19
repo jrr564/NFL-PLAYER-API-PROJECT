@@ -13,9 +13,6 @@ var scheduleQueryURL = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular
 var gameMoment;
 var gameLocation;
 
-var playerName = "";
-var playerTeam = "OAK";
-
 var home;
 
 var map;
@@ -36,15 +33,18 @@ $(document).ready(function() {
   $("#submit-Button").on("click", function(event) {
     event.preventDefault();
 
+    $("#resultsBox").hide();
     $("#searchPanel").show();
 
     //clears table with list of names from previous search
     $("#tableSearchList").empty();
     $("#playerNewsContainer").empty();
+    $("#arrestRecord").empty()
+
 
     
     playerseachMSF();
-    // playerSearchESPN();
+    playerSearchESPN();
   })
 })
 
@@ -178,8 +178,7 @@ function playerseachMSF() {
     $(".players").on("click", function() {
       $("#resultsBox").show();
       $("#searchPanel").hide(1000);
-
-
+      $("#arrestRecord").empty();
 
       var playerID = $(this).attr("id");
       var playerFN = $(this).attr("data-FN");
@@ -215,7 +214,7 @@ function playerFantasyStats(firstName, lastName) {
     // var playerJSON = JSON.stringify(response.cumulativeplayerstats.playerstatsentry[0].stats[0]);
 
 
-    // console.log(response.cumulativeplayerstats.playerstatsentry[0].stats[0]);
+    // console.log(response.cumulativeplayerstats.playerstatsentry[0].stats);
 
 
     // for (var i = 0; i < playerJSON.length; i++) {
@@ -257,7 +256,7 @@ function displayPlayerStats(firstName, lastName) {
     $("#playerPosition").text("Position " + player_Position);
     $("#playerNum").text("#" + player_Num);
     $("#playerHeight").text("Height " + player_Height);
-    $("#playerWeight").text("Weight " + player_Weight);
+    $("#playerWeight").text("Weight " + player_Weight + " lbs");
     $("#playerAge").text(player_Age + " Years Old");
 
 
@@ -286,11 +285,12 @@ function playerDisplay(playerID) {
 
 
 
-      $("#playerNewsContainer").append("<div>" + playerNewsBody + "</div>");
+      $("#playerNewsContainer").append("<div class='headline'>" + playerNewsBody + "</div>");
+      // $("#playerNewsContainer").append("<br>");
+      $("#playerNewsContainer").append("<div class='news'>" + playerAnalysis + "</div>");
       $("#playerNewsContainer").append("<br>");
-      $("#playerNewsContainer").append("<div>" + playerAnalysis + "</div>");
-      $("#playerNewsContainer").append("<div>" + "-------------------------------------------------" + "</div>");
-      $("#playerNewsContainer").append("<div>" + "-------------------------------------------------" + "</div>");
+      // $("#playerNewsContainer").append("<div>" + "-------------------------------------------------" + "</div>");
+      // $("#playerNewsContainer").append("<div>" + "-------------------------------------------------" + "</div>");
     }
 
 
@@ -357,7 +357,7 @@ function gameScheduleQuery(team) {
     }
   }).done(function(response) {
 
-    console.log(queryURL);
+    console.log("GameSchedule - " + queryURL);
 
     var game = response.fullgameschedule.gameentry[0];
 
@@ -369,14 +369,14 @@ function gameScheduleQuery(team) {
 
     var gameTime = game.date + " " + game.time;
 
-    var date = moment(gameTime, "YYYY-MM-DD hh:mm A").format("YYYY-MM-DD h:mm");
+    var date = moment(gameTime, "YYYY-MM-DD hh:mm A").format("YYYY-MM-DD HH:mm");
 
-    $("#schedule").html("<h4>Next Game </h4>");
+    $("#schedule").html("<h4>Next Game: </h4>");
 
 
     var div = $("<div>").append(date);
  
-    div.append("<div>" + awayTeam + "&nbspat&nbsp" + homeTeam + "</div>");
+    div.append("<div>" + awayTeam + "&nbsp&nbsp@&nbsp&nbsp" + homeTeam + "</div>");
     
     div.append("<div>" + stadium + "</div><br>");
     $("#schedule").append(div);
@@ -386,8 +386,7 @@ function gameScheduleQuery(team) {
       
   });
 
-};
-
+}
 //
 
 //Open Weather API
@@ -467,20 +466,21 @@ function venueSearch(latlong) {
 //arrestRecord
 function arrestRecord(firstName, lastName) {
 
-  //var queryURL = "http://nflarrest.com/api/v1/player/arrests/Marshawn+Lynch";
+
   var queryURL = "http://nflarrest.com/api/v1/player/arrests/" + firstName +"%20"+ lastName;
+
   $.ajax({
     url: queryURL,
     method: "GET"
   }).done(function(response) {
-    console.log(response);
+    console.log("Arrest - " + queryURL);
     var results = response;
     for (var i = 0; i < results.length; i++) {
         //var crimeDiv = $("<div>");
         //crimeDiv.addClass("crime");
-        var p1 = $("<h4>").text("Violation: " + results[i].Crime_category);
-        var p2 = $("<h5>").text("Date: " + results[i].Date);
-        var p = $("<p>").text(" Description: " + results[i].Description);
+        var p1 = $("<h4>").text("CRIME: " + results[i].Crime_category);
+        var p2 = $("<h5>").text("YEAR: " + results[i].Year);
+        var p = $("<p>").text("ARREST DESCRIPTION: " + results[i].Description);
         // var p3 = $("<p>").text("Outcome: " + results[i].Outcome);
         // $(".container").prepend(p3);
         $("#arrestRecord").prepend(p);

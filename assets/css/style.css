@@ -81,3 +81,5 @@ h4 {
       height: 100%;
     }
 
+.players:hover {
+	background-color: yellow;
