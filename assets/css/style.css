@@ -21,7 +21,11 @@ body {
 	height: auto;
 }
 
-h1, h2, h3 {
+.headline{
+	font-weight: bold;
+}
+
+h1, h2 {
 	font-family: 'Alegreya', serif;
 }
 
@@ -32,9 +36,10 @@ h3 {
 
 h4 {
 	font-weight: bold;
-	text-decoration: overline;
 	text-decoration: underline;
 }
+
+h5
 
 #search {
 	padding: 0 20px 10px;
