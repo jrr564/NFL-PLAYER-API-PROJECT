@@ -1,7 +1,7 @@
 // SETUP VARIABLES
 // ==========================================================
 
-var weatherAddress = "http://api.openweathermap.org/data/2.5/forecast?mode=json&";
+var weatherAddress = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?mode=json&";
 var ticketQueryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=Woz0yAkff0NLy3N8cRrg7O7nd3x7qr8l&sort=date,asc"
 var venueQueryURL = "https://app.ticketmaster.com/discovery/v2/venues.json?apikey=Woz0yAkff0NLy3N8cRrg7O7nd3x7qr8l&sort=distance,asc"
 var scheduleQueryURL = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/full_game_schedule.json?date=since-today"
@@ -66,7 +66,7 @@ function playerSearch() {
 
 
 function playerSearchESPN() {
-  var queryURL = "http://api.fantasy.nfl.com/v1/players/researchinfo?count=9999&format=json";
+  var queryURL = "https://cors-anywhere.herokuapp.com/http://api.fantasy.nfl.com/v1/players/researchinfo?count=9999&format=json";
   var searchPlayerFN = $("#searchFN").val().trim(); 
   var searchPlayerLN = $("#searchLN").val().trim();
 
@@ -265,7 +265,7 @@ function displayPlayerStats(firstName, lastName) {
 }
 
 function playerDisplay(playerID) {
-  var queryURL = "http://api.fantasy.nfl.com/v1/players/details?playerId=" + playerID + "&statType=seasonStatsformat=json";
+  var queryURL = "https://cors-anywhere.herokuapp.com/http://api.fantasy.nfl.com/v1/players/details?playerId=" + playerID + "&statType=seasonStatsformat=json";
   $.ajax({
     url: queryURL,
     method: "GET"
@@ -407,7 +407,7 @@ function searchWeather(lat, lon){
       }
     }
     var weather = response.list[index];
-    var icon = $("<img>").attr("src", "http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png");
+    var icon = $("<img>").attr("src", "https://cors-anywhere.herokuapp.com/http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png");
     var city = $("<strong>").text(response.city.name);
     city.append(icon);
     var div = $("<div>").text();
