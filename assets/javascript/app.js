@@ -4,7 +4,7 @@
 var weatherAddress = "http://api.openweathermap.org/data/2.5/forecast?mode=json&";
 var ticketQueryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=Woz0yAkff0NLy3N8cRrg7O7nd3x7qr8l&sort=date,asc"
 var venueQueryURL = "https://app.ticketmaster.com/discovery/v2/venues.json?apikey=Woz0yAkff0NLy3N8cRrg7O7nd3x7qr8l&sort=distance,asc"
-var scheduleQueryURL = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/full_game_schedule.json?date=since-yesterday"
+var scheduleQueryURL = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/full_game_schedule.json?date=since-today"
 
 
 // var playerQueryURL04 = "http://api.fantasy.nfl.com/players/stats?statType=seasonStats&season=2017&format=json"
@@ -272,9 +272,8 @@ function playerDisplay(playerID) {
   }).done(function(response) {
     console.log("PlayerDisplay ESPN - " + queryURL);
 
-    var playerTeamAbbr = response.players[0].teamAbbr
-    searchAddress(playerTeamAbbr);
-    gameScheduleQuery(playerTeamAbbr);
+    playerTeam = response.players[0].teamAbbr;
+    gameScheduleQuery(playerTeam);
 
     
 
@@ -467,8 +466,9 @@ function venueSearch(latlong) {
 //arrestRecord
 function arrestRecord(firstName, lastName) {
 
-  var queryURL = "http://nflarrest.com/api/v1/player/arrests/" + firstName + "+" + lastName;
-   //var queryURL = "http://nflarrest.com/api/v1/player/arrests/" + firstName "%20"+ lastName;
+
+  var queryURL = "http://nflarrest.com/api/v1/player/arrests/" + firstName +"%20"+ lastName;
+
   $.ajax({
     url: queryURL,
     method: "GET"
