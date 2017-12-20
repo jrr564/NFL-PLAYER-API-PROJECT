@@ -261,11 +261,10 @@ function runPlayerNews(id) {
     for (var i = 0; i < 10; i++) {
       var newsTitle = data[i].Title;
       var newsURL = data[i].Url;
-      var newsDate = data[i].Source;
       var newsTime = data[i].TimeAgo;
 
       $("#playerNewsContainer").append("<a id='title' target='_blank' href=" + "'" + newsURL + "'" + ">" + newsTitle + "</a>");
-      $("#playerNewsContainer").append("<div>" + "Source: " + newsTime  + "</div>");
+      $("#playerNewsContainer").append("<div>" + newsTime  + "</div>");
       $("#playerNewsContainer").append("<br>");
     } //FOR
 
