@@ -1,10 +1,10 @@
 // SETUP VARIABLES
 // ==========================================================
 
-var weatherAddress = "http://api.openweathermap.org/data/2.5/forecast?mode=json&";
+var weatherAddress = "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast?mode=json&";
 var ticketQueryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=Woz0yAkff0NLy3N8cRrg7O7nd3x7qr8l&sort=date,asc"
 var venueQueryURL = "https://app.ticketmaster.com/discovery/v2/venues.json?apikey=Woz0yAkff0NLy3N8cRrg7O7nd3x7qr8l&sort=distance,asc"
-var scheduleQueryURL = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/full_game_schedule.json?date=since-yesterday"
+var scheduleQueryURL = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/full_game_schedule.json?date=since-today"
 
 
 // var playerQueryURL04 = "http://api.fantasy.nfl.com/players/stats?statType=seasonStats&season=2017&format=json"
@@ -53,8 +53,13 @@ $(document).ready(function() {
 
 
 
+<<<<<<< HEAD
 function playerSearch() {
   queryURL = "https://api.fantasydata.net/v3/nfl/stats/JSON/Players";
+=======
+function playerSearchESPN() {
+  var queryURL = "https://cors-anywhere.herokuapp.com/http://api.fantasy.nfl.com/v1/players/researchinfo?count=9999&format=json";
+>>>>>>> 583afdfa384e19f4ffc217a86593a2209eaea227
   var searchPlayerFN = $("#searchFN").val().trim(); 
   var searchPlayerLN = $("#searchLN").val().trim();
 
@@ -306,7 +311,20 @@ function playerseachMSF() {
   }) //done 
 }
 
+<<<<<<< HEAD
 
+=======
+function playerDisplay(playerID) {
+  var queryURL = "https://cors-anywhere.herokuapp.com/http://api.fantasy.nfl.com/v1/players/details?playerId=" + playerID + "&statType=seasonStatsformat=json";
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  }).done(function(response) {
+    console.log("PlayerDisplay ESPN - " + queryURL);
+
+    playerTeam = response.players[0].teamAbbr;
+    gameScheduleQuery(playerTeam);
+>>>>>>> 583afdfa384e19f4ffc217a86593a2209eaea227
 
 
 
@@ -425,9 +443,13 @@ function searchWeather(lat, lon){
     city.append(icon);
     var div = $("<div>").text();
     //div.append(icon);
-    $("#weather").html("<h4>GameDay Weather: </h4>");
+    $("#weather").html("<h4>Gameday Weather</h4>");
     $("#weather").append(city);
+<<<<<<< HEAD
     $("#weather").append("<div>Temperature: " + Math.round(weather.main.temp) + "°F </div>");
+=======
+    $("#weather").append("<div>Temp: " + Math.round(weather.main.temp) + "°F </div>");
+>>>>>>> 583afdfa384e19f4ffc217a86593a2209eaea227
     $("#weather").append("<div>Wind Speed: " + weather.wind.speed + "&nbspmph</div>");
     $("#weather").append("<div>Humidity: " + weather.main.humidity + "%</div><br>");
 
@@ -479,8 +501,9 @@ function venueSearch(latlong) {
 //arrestRecord
 function arrestRecord(firstName, lastName) {
 
-  var queryURL = "http://nflarrest.com/api/v1/player/arrests/" + firstName + "+" + lastName;
-   //var queryURL = "http://nflarrest.com/api/v1/player/arrests/" + firstName "%20"+ lastName;
+
+  var queryURL = "https://cors-anywhere.herokuapp.com/http://nflarrest.com/api/v1/player/arrests/" + firstName +"%20"+ lastName;
+
   $.ajax({
     url: queryURL,
     method: "GET"
@@ -517,6 +540,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
+<<<<<<< HEAD
 var gameData = firebase.database();
 
 function updateDataBase(firstName, lastName, team, position, playerID) {
@@ -577,3 +601,6 @@ gameData.ref().on("child_added", function(childSnapshot, prevChildKey) {
       .append( $("<td>").text(position))
     );
 });
+=======
+var gameData = firebase.database().ref("/games");
+>>>>>>> 583afdfa384e19f4ffc217a86593a2209eaea227
