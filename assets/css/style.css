@@ -2,9 +2,6 @@ body {
 	font-family: Verdana, Geneva, sans-serif;
 	box-sizing: border-box;
 }
-.panel-title {
-	font-size: 24px;
-}
 
 .containers {
 	margin-left: 20px;
@@ -21,7 +18,11 @@ body {
 	height: auto;
 }
 
-h1, h2, h3 {
+.headline{
+	font-weight: bold;
+}
+
+h1, h2 {
 	font-family: 'Alegreya', serif;
 }
 
@@ -32,18 +33,7 @@ h3 {
 
 h4 {
 	font-weight: bold;
-	text-decoration: overline;
 	text-decoration: underline;
-}
-
-#search {
-	padding: 0 20px 10px;
-	font-size: 22px;
-}
-
-#header {
-	font-size: 100px;
-	 color: #333;
 }
 
 .panel-heading {
@@ -67,6 +57,7 @@ h4 {
 	border-radius: 50%;
 	background:repeating-radial-gradient(#eeeeee, #eeeeee 5px, white 5px, white 10px);
 	border: 5px solid #eeeeee;
+	margin-left: 10px;
 }
 
 #mapBox {
@@ -83,3 +74,46 @@ h4 {
 
 .players:hover {
 	background-color: yellow;
+}
+
+.form-group {
+	padding: 0 20px 10px 20px;
+	font-size: 18px;
+}
+
+.panel-title {
+	font-size: 30px;
+}
+
+#header {
+	font-size: 80px;
+	 color: #333;
+}
+
+@media screen and (max-width: 940px) {
+
+#header {
+	font-size: 70px;
+}
+
+}
+
+@media screen and (max-width: 768px) {
+
+#header {
+	font-size: 40px;
+}
+
+#headshot {
+	width: 300px;
+	height: auto;
+}
+
+}
+
+@media screen and (max-width: 640px) {
+
+	#header {
+	font-size: 42px;
+}
+}
