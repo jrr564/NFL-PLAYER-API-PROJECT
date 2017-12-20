@@ -419,8 +419,7 @@ function searchWeather(lat, lon){
       }
     }
     var weather = response.list[index];
-    var icon = $("<img>").attr("src", "http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png");
-    var city = $("<strong>").text(response.city.name);
+    var icon = $("<img>").attr("src", "http://openweathermap.org/img/w/" + weather.weather[0].icon + ".png");    var city = $("<strong>").text(response.city.name);
     city.append(icon);
     var div = $("<div>").text();
     //div.append(icon);
@@ -478,8 +477,7 @@ function venueSearch(latlong) {
 //arrestRecord
 function arrestRecord(firstName, lastName) {
 
-  var queryURL = "http://nflarrest.com/api/v1/player/arrests/" + firstName + "+" + lastName;
-   //var queryURL = "http://nflarrest.com/api/v1/player/arrests/" + firstName "%20"+ lastName;
+  var queryURL = "https://cors-anywhere.herokuapp.com/http://nflarrest.com/api/v1/player/arrests/" + firstName +"%20"+ lastName;   //var queryURL = "http://nflarrest.com/api/v1/player/arrests/" + firstName "%20"+ lastName;
   $.ajax({
     url: queryURL,
     method: "GET"
