@@ -90,6 +90,11 @@ h4 {
 	 color: #333;
 }
 
+#bgvid{
+	width: 99%;
+	height: auto;
+}
+
 @media screen and (max-width: 940px) {
 
 #header {
@@ -101,12 +106,7 @@ h4 {
 @media screen and (max-width: 768px) {
 
 #header {
-	font-size: 40px;
-}
-
-#headshot {
-	width: 300px;
-	height: auto;
+	font-size: 50px;
 }
 
 }

@@ -44,74 +44,234 @@ $(document).ready(function() {
 
     
     playerseachMSF();
-    playerSearchESPN();
+    playerSearch();
   })
 })
 
 
 
-// CORS API - does not currently work
+
+
+
 function playerSearch() {
-  var queryURL = "https://api.sportradar.us/nfl-ot2/players/0acdcd3b-5442-4311-a139-ae7c506faf88/profile.xml?api_key=y8k4vea62ypyg6us7vjp4nhm"
-
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).done(function(respone) {
-    console.log(queryURL)
-  })
-}
-
-
-
-
-function playerSearchESPN() {
-  var queryURL = "http://api.fantasy.nfl.com/v1/players/researchinfo?count=9999&format=json";
+  queryURL = "https://api.fantasydata.net/v3/nfl/stats/JSON/Players";
   var searchPlayerFN = $("#searchFN").val().trim(); 
   var searchPlayerLN = $("#searchLN").val().trim();
 
+
+  // Capitalize First Letter and Lower Case rest  
+  searchPlayerFN = searchPlayerFN.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+    return letter.toUpperCase();
+  });
+  searchPlayerLN = searchPlayerLN.toLowerCase().replace(/\b[a-z]/g, function(letter) {
+    return letter.toUpperCase();
+  });
+
+
+  $.ajax({
+      url: queryURL,
+      headers: {"Ocp-Apim-Subscription-Key": "1003f45d5a54415ca0fe1f426cb20e47"},
+      type: "GET",
+      data: "json",
+  }).done(function(data) {
+    console.log(data);
+
+    if (searchPlayerLN == 0) {
+      $("#tableSearchList")
+      .append($("<tr>")
+        .append( $("<td>").text("Enter Player Last Name"))
+      )
+    }
+
+
+    if (searchPlayerFN == 0) {
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].LastName === searchPlayerLN) {
+            var playerResults_ID = data[i].PlayerID;
+            var playerResults_FN = data[i].FirstName;
+            var playerResults_LN = data[i].LastName;
+            var playerResults_Position = data[i].Position;
+            
+            if (data[i].Team !== null) {
+              var playerResults_Team = data[i].Team;
+            }else {
+              var playerResults_Team = "Free Agent";
+            }
+
+            addPlayersToTable();
+        } //IF
+      } //FOR
+    } //FOR
+    else {
+      for (var i = 0; i < data.length; i++) {
+        if (data[i].FirstName == searchPlayerFN && data[i].LastName == searchPlayerLN) {
+            var playerResults_ID = data[i].PlayerID;
+            var playerResults_FN = data[i].FirstName;
+            var playerResults_LN = data[i].LastName;
+            var playerResults_Position = data[i].Position;   
+
+            if (data[i].Team !== null) {
+              var playerResults_Team = data[i].Team;
+            }else {
+              var playerResults_Team = "Free Agent";
+            }
+
+            addPlayersToTable();                   
+        } //IF
+      } //FOR
+    } //ELSE
+
+
+      //adds players that match searched name to table
+    function addPlayersToTable() { 
+      $("#tableSearchList")
+      .append($("<tr>")
+          .attr("id", playerResults_ID)
+          .attr("data-FN", playerResults_FN)
+          .attr("data-LN", playerResults_LN)
+          .attr("data-Team", playerResults_Team)
+          .attr("data-Position", playerResults_Position)
+          .attr("class", "players")
+          .append( $("<td>").text(playerResults_FN + " " + playerResults_LN))
+          .append( $("<td>").text(playerResults_Team))
+          .append( $("<td>").text(playerResults_Position))
+      ) //<tr> append
+    }
+
+        // on click for when a player is selected
+    $(".players").on("click", function() {
+      $("#resultsBox").show();
+      $("#searchPanel").hide(1000);
+      $("#arrestRecord").empty();
+      $(".video").empty();
+
+      var playerID = $(this).attr("id");
+      var playerFN = $(this).attr("data-FN");
+      var playerLN = $(this).attr("data-LN");
+      var playerTeam = $(this).attr("data-Team");
+      var playerPosition = $(this).attr("data-Position");
+
+      playerIndex(playerID);
+      arrestRecord(playerFN, playerLN);
+      
+      // displayPlayerStats(playerFN, playerLN);
+      // playerFantasyStats(playerFN, playerLN)
+
+      updateDataBase(playerFN, playerLN, playerTeam, playerPosition, playerID);
+      
+    })
+
+    $(".recentPlayers").on("click", function() {
+      $("#resultsBox").show();
+      $("#searchPanel").hide(1000);
+      $("#arrestRecord").empty();
+      $(".video").empty();
+
+      var playerID = $(this).attr("id");
+      var playerFN = $(this).attr("data-FN");
+      var playerLN = $(this).attr("data-LN");
+      var playerTeam = $(this).attr("data-Team");
+      var playerPosition = $(this).attr("data-Position");
+
+      playerIndex(playerID);
+      arrestRecord(playerFN, playerLN);
+      
+      // playerDisplay(playerID);
+      // displayPlayerStats(playerFN, playerLN);
+      // playerFantasyStats(playerFN, playerLN)
+
+      //updateDataBase is not included since player already is in database
+    })
+  });
+
+} //FUNCTION
+
+function playerIndex(id) {
+  queryURL = "https://api.fantasydata.net/v3/nfl/stats/JSON/Player/" + id;
+
   $.ajax({
     url: queryURL,
-    method: "GET"
-  }).done(function(respone) {
+    headers: {"Ocp-Apim-Subscription-Key": "1003f45d5a54415ca0fe1f426cb20e47"},
+    type: "GET",
+    data: "json",
+  }).done(function(data) {
+    console.log(data);
 
-    console.log("PlayerSearch ESPN - " + queryURL);
+    var ftsy = data.PlayerSeason;
 
-///// IF searchPlayerFN is empty
-    var players = respone.players;
-    if (searchPlayerFN == 0) {
-      for (var i = 0; i < players.length; i++) {
-        if (players[i].lastName === searchPlayerLN) {
-          var playerResults_LN = players[i].lastName;
-          var playerResults_FN = players[i].firstName;
-          var playerResults_ID = players[i].id;
-          var playerResults_Abbr = players[i].teamAbr;
-          var playerResults_Position = players[i].position;
-          
-          playerInfo(playerResults_FN, playerResults_LN);
-        } 
-      }
-    } 
-    else {// IF searchPlayerFN has content
-      for (var i = 0; i < respone.players.length; i++) {
-        if (respone.players[i].lastName === searchPlayerLN && respone.players[i].firstName === searchPlayerFN) {
-          var playerResults_LN = respone.players[i].lastName;
-          var playerResults_FN = respone.players[i].firstName;
+    var player_ID = data.PlayerID;
+    var player_FN = data.FirstName;
+    var player_LN = data.LastName;
+    var player_ID = data.PlayerID;
+    var player_Num = data.Number
+    var player_Position = data.Position;
+    var player_Height = data.Height;
+    var player_Weight = data.Weight;
+    var player_Age = data.Age;
+    var player_IMG = data.PhotoUrl;
+    var player_TeamAbbr = data.CurrentTeam;
+    var player_College = data.College;
+    var player_Season = data.ExperienceString;
+    var player_FantasyPoints = ftsy.FantasyPoints;
+    var player_Receiving = ftsy.ReceivingYards;
+    var player_Rushing = ftsy.RushingYards;
+    var player_Touchdowns = ftsy.Touchdowns;
 
-          playerInfo(playerResults_FN, playerResults_LN);
-        }
-      }
+
+
+    if (player_IMG === null) {
+      $("#headshot").attr("src", "assets/images/placeholder.png");
+    }else {
+      $("#headshot").attr("src", player_IMG);
     }
 
-    function playerInfo(FN, LN) {
-      
-    }
+
+    $("#playerName").text(player_FN + " " + player_LN);
+    $("#playerTeam").text("Team: " + player_TeamAbbr);
+    $("#playerPosition").text("Position " + player_Position);
+    $("#playerNum").text("#" + player_Num);
+    $("#playerHeight").text("Height " + player_Height);
+    $("#playerWeight").text("Weight " + player_Weight);
+    $("#playerAge").text(player_Age + " Years Old");
+
+    $("#playerStats").append("<div><b>Total Fantasy Points: </b>" + player_FantasyPoints + "</div>");
+    $("#playerStats").append("<div><b>Total Touchdown: </b>" + player_Touchdowns + "</div>");
+    $("#playerStats").append("<div><b>Total Receiving Yards: </b>" + player_Receiving + "</div>");
+    $("#playerStats").append("<div><b>Total Rushing Yards: </b>" + player_Rushing + "</div>");
+
+    runPlayerNews(player_ID);
+    searchAddress(player_TeamAbbr);
+    gameScheduleQuery(player_TeamAbbr);
+
+  }) //DONE
+
+} //FUNCTION
+
+function runPlayerNews(id) {
+  queryURL = "https://api.fantasydata.net/v3/nfl/stats/JSON/NewsByPlayerID/" + id;
+
+  $.ajax({
+    url: queryURL,
+    headers: {"Ocp-Apim-Subscription-Key": "1003f45d5a54415ca0fe1f426cb20e47"},
+    type: "GET",
+    data: "json",
+  }).done(function(data) {
+    console.log(data);
+
+    for (var i = 0; i < 10; i++) {
+      var newsTitle = data[i].Title;
+      var newsURL = data[i].Url;
+      var newsDate = data[i].Source;
+      var newsTime = data[i].TimeAgo;
+
+      $("#playerNewsContainer").append("<a id='title' target='_blank' href=" + "'" + newsURL + "'" + ">" + newsTitle + "</a>");
+      $("#playerNewsContainer").append("<div>" + "Source: " + newsTime  + "</div>");
+      $("#playerNewsContainer").append("<br>");
+    } //FOR
 
 
-  })
-}
-
-
+  }) //DONE
+} //FUNCTION
 
 
 
@@ -129,7 +289,8 @@ function playerseachMSF() {
   }
 
   var playerQueryURL = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/active_players.json?" + "player=" + searchedPlayer;
-  
+  var playerQueryURL02 = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/cumulative_player_stats.JSON";
+  var playerQueryURL03 = "https://api.fantasydata.net/v3/nfl/stats/JSON/NewsByPlayerID/{playerid}"
 
   $.ajax({
     type: "GET",
@@ -142,161 +303,12 @@ function playerseachMSF() {
   }).done(function(response) {
     console.log("PlayerSearch MSF - " + playerQueryURL);
 
-    var playerResults = response.activeplayers.playerentry;
-
-    for (var i = 0; i < playerResults.length; i++) {
-
-      //removes any variables with undifined results
-      if (playerResults[i].team !== undefined) {
-        var playerResults_FN = playerResults[i].player.FirstName;
-        var playerResults_LN = playerResults[i].player.LastName;
-        var playerResults_Position = playerResults[i].player.Position;
-        var playerResults_Team = playerResults[i].team.Name;
-        var playerResults_City = playerResults[i].team.City;
-        var playerResults_CityAbbr = playerResults[i].team.Abbreviation;
-        var playerResults_IMG = playerResults[i].player.officialImageSrc;
-      }
-      if (playerResults[i].player.externalMapping !== null) {
-        var playerResults_ID = playerResults[i].player.externalMapping.ID;
-      }
-
-      //adds players that match searched name to table
-      $("#tableSearchList")
-        .append($("<tr>")
-          .attr("id", playerResults_ID)
-          .attr("data-FN", playerResults_FN)
-          .attr("data-LN", playerResults_LN)
-          .attr("class", "players")
-          .append( $("<td>").text(playerResults_FN + " " + playerResults_LN))
-          .append( $("<td>").text(playerResults_Team))
-          .append( $("<td>").text(playerResults_Position))
-        ) //<tr> append
-    } //for loop
-
-
-    // on click for when a player is selected
-    $(".players").on("click", function() {
-      $("#resultsBox").show();
-      $("#searchPanel").hide(1000);
-      $("#arrestRecord").empty();
-
-      var playerID = $(this).attr("id");
-      var playerFN = $(this).attr("data-FN");
-      var playerLN = $(this).attr("data-LN");
-
-      arrestRecord(playerFN, playerLN);
-      playerDisplay(playerID);
-      displayPlayerStats(playerFN, playerLN);
-      playerFantasyStats(playerFN, playerLN)
-    })
-
-
-
-
   }) //done 
 }
 
-function playerFantasyStats(firstName, lastName) {
-  var queryURL = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/cumulative_player_stats.json?" + "player=" + firstName + "-" + lastName;
-  var queryURL02 = "https://api.mysportsfeeds.com/v1.0/pull/nfl/2017-regular/cumulative_player_stats.json?playerstats=Att,Comp,Yds,TD&" + "player=" + firstName + "-" + lastName;
-
-    $.ajax({
-    type: "GET",
-    url: queryURL02,
-    dataType: 'json',
-    async: true,
-    headers: {
-    "Authorization": "Basic " + btoa("chen" + ":" + "testing")
-  },
-  }).done(function(response) {
-    // console.log("Player Stats - " + queryURL02);
-
-    // var playerJSON = JSON.stringify(response.cumulativeplayerstats.playerstatsentry[0].stats[0]);
-
-
-    // console.log(response.cumulativeplayerstats.playerstatsentry[0].stats);
-
-
-    // for (var i = 0; i < playerJSON.length; i++) {
-      
-    // }
-  })
-}
 
 
 
-function displayPlayerStats(firstName, lastName) {
-  var playerQueryURL = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/active_players.json?" + "player=" + firstName + "-" + lastName;
-  
-
-  $.ajax({
-    type: "GET",
-    url: playerQueryURL,
-    dataType: 'json',
-    async: true,
-    headers: {
-    "Authorization": "Basic " + btoa("chen" + ":" + "testing")
-  },
-  }).done(function(response) {
-    console.log("Player Stats - " + playerQueryURL);
-
-    var playerResults = response.activeplayers.playerentry[0];
-    var player_Num = playerResults.player.JerseyNumber;
-    var player_Position = playerResults.player.Position;
-    var player_Height = playerResults.player.Height;
-    var player_Weight = playerResults.player.Weight;
-    var player_Age = playerResults.player.Age;
-    var player_IMG = playerResults.player.officialImageSrc;
-    var player_TeamCity = playerResults.team.City;
-    var player_TeamName = playerResults.team.Name;
-
-    $("#headshot").attr("src", player_IMG);
-    $("#playerName").text(firstName + " " + lastName);
-    $("#playerTeam").text(player_TeamCity + " " + player_TeamName);
-    $("#playerPosition").text("Position " + player_Position);
-    $("#playerNum").text("#" + player_Num);
-    $("#playerHeight").text("Height " + player_Height);
-    $("#playerWeight").text("Weight " + player_Weight + " lbs");
-    $("#playerAge").text(player_Age + " Years Old");
-
-
-  })
-
-}
-
-function playerDisplay(playerID) {
-  var queryURL = "http://api.fantasy.nfl.com/v1/players/details?playerId=" + playerID + "&statType=seasonStatsformat=json";
-  $.ajax({
-    url: queryURL,
-    method: "GET"
-  }).done(function(response) {
-    console.log("PlayerDisplay ESPN - " + queryURL);
-
-    var playerTeamAbbr = response.players[0].teamAbbr
-    searchAddress(playerTeamAbbr);
-    gameScheduleQuery(playerTeamAbbr);
-
-    
-
-    for (var i = 0; i < response.players[0].notes.length; i++) {
-      var playerNews = response.players[0].notes;
-      var playerNewsBody = playerNews[i].body;
-      var playerAnalysis = playerNews[i].analysis;
-      
-
-
-
-      $("#playerNewsContainer").append("<div class='headline'>" + playerNewsBody + "</div>");
-      // $("#playerNewsContainer").append("<br>");
-      $("#playerNewsContainer").append("<div class='news'>" + playerAnalysis + "</div>");
-      $("#playerNewsContainer").append("<br>");
-      // $("#playerNewsContainer").append("<div>" + "-------------------------------------------------" + "</div>");
-      // $("#playerNewsContainer").append("<div>" + "-------------------------------------------------" + "</div>");
-    }
-
-
-  })
-}
 
 
 //Google Map API
@@ -370,14 +382,14 @@ function gameScheduleQuery(team) {
 
     var gameTime = game.date + " " + game.time;
 
-    var date = moment(gameTime, "YYYY-MM-DD hh:mm A").format("YYYY-MM-DD HH:mm");
+    var date = moment(gameTime, "YYYY-MM-DD hh:mm A").format("DD-MM-YYYY H:mm");
 
-    $("#schedule").html("<h4>Next Game: </h4>");
+    $("#schedule").html("<h4>Next Game </h4>");
 
 
     var div = $("<div>").append(date);
  
-    div.append("<div>" + awayTeam + "&nbsp&nbsp@&nbsp&nbsp" + homeTeam + "</div>");
+    div.append("<div>" + awayTeam + "&nbsp@&nbsp" + homeTeam + "</div>");
     
     div.append("<div>" + stadium + "</div><br>");
     $("#schedule").append(div);
@@ -415,9 +427,9 @@ function searchWeather(lat, lon){
     //div.append(icon);
     $("#weather").html("<h4>GameDay Weather: </h4>");
     $("#weather").append(city);
-    $("#weather").append("<div>Feels like&nbsp&nbsp&nbsp&nbsp" + Math.round(weather.main.temp) + "°F </div>");
-    $("#weather").append("<div>Wind&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + weather.wind.speed + "&nbspmph</div>");
-    $("#weather").append("<div>Humidity&nbsp&nbsp&nbsp" + weather.main.humidity + "%</div><br>");
+    $("#weather").append("<div>Temperature: " + Math.round(weather.main.temp) + "°F </div>");
+    $("#weather").append("<div>Wind Speed: " + weather.wind.speed + "&nbspmph</div>");
+    $("#weather").append("<div>Humidity: " + weather.main.humidity + "%</div><br>");
 
     // console.log(weather.weather[0].description);
   })
@@ -444,7 +456,7 @@ function searchTicket() {
     var link = $("<a>").attr("href", event.url).attr("target", "_blank").text("Buy Tickets");
     $("#ticket").append(link);
 
-    var price = $("<div>").text("Price Ranges: " + event.priceRanges[0].min + " USD to " + event.priceRanges[0].max + " USD");
+    var price = $("<div>").text("Price Range: $" + event.priceRanges[0].min + " to $" + event.priceRanges[0].max);
     $("#ticket").append(price);
   });
 }
@@ -478,9 +490,9 @@ function arrestRecord(firstName, lastName) {
     for (var i = 0; i < results.length; i++) {
         //var crimeDiv = $("<div>");
         //crimeDiv.addClass("crime");
-        var p1 = $("<h4>").text("CRIME: " + results[i].Crime_category);
-        var p2 = $("<h5>").text("YEAR: " + results[i].Year);
-        var p = $("<p>").text("ARREST DESCRIPTION: " + results[i].Description);
+        var p1 = $("<h4>").text("Violation: " + results[i].Crime_category);
+        var p2 = $("<h5>").text("Year: " + results[i].Year);
+        var p = $("<p>").text("Arrest Description: " + results[i].Description);
         // var p3 = $("<p>").text("Outcome: " + results[i].Outcome);
         // $(".container").prepend(p3);
         $("#arrestRecord").prepend(p);
@@ -494,6 +506,7 @@ function arrestRecord(firstName, lastName) {
 
 
 // Initialize Firebase
+
 var config = {
   apiKey: "AIzaSyA_kJWy8ut3lcZVcJ-PfZIjm_S4OMj3qUQ",
   authDomain: "nfl-project-f85c0.firebaseapp.com",
@@ -504,4 +517,63 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var gameData = firebase.database().ref("/games");
+var gameData = firebase.database();
+
+function updateDataBase(firstName, lastName, team, position, playerID) {
+  console.log(firstName);
+  var newPlayer = {
+    firstName: firstName,
+    lastName: lastName,
+    team: team,
+    position: position,
+    playerID: playerID
+  }
+  console.log(newPlayer);
+
+  // if ( $("#tableBody.tr.td" == firstName + " " + lastName) ) {
+  //   console.log("name already exists akdfj;k aldkj f")
+  // }
+
+  gameData.ref().push(newPlayer);
+  
+
+}
+
+gameData.ref().on("child_added", function(childSnapshot, prevChildKey) {
+  var firstName = childSnapshot.val().firstName;
+  var lastName = childSnapshot.val().lastName;
+  var team = childSnapshot.val().team;
+  var position = childSnapshot.val().position;
+  var playerID = childSnapshot.val().playerID;
+
+  // $("#tableBody td").each(function(index) {
+  //   if (index === "Tom Brady") {
+  //     console.log("name already exists");
+  //   } else {
+  //     console.log("name added");
+  //   }
+  // });
+
+  // $("#tableBody").find("tr").each(function(index) {
+  //   if (index === "Tom Brady") {
+  //     console.log("name already exists");
+  //   } else {
+  //     console.log("name added");
+  //   }
+  // })
+
+  // console.log($("#tableBody").attr("td"));
+
+  $("#tableBody")
+    .append($("<tr>")
+      .attr("id", playerID)
+      .attr("data-FN", firstName)
+      .attr("data-LN", lastName)
+      .attr("data-Team", team)
+      .attr("data-Position", position)
+      .attr("class", "recentPlayers")
+      .append( $("<td>").text(firstName + " " + lastName))
+      .append( $("<td>").text(team))
+      .append( $("<td>").text(position))
+    );
+});

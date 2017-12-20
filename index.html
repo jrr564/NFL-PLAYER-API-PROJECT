@@ -14,6 +14,12 @@
 </head>
 <body>
 	<div class="jumbotron">
+		<div class="video">
+			<video id="bgvid" playsinline autoplay loop>
+		        <source src="assets/videos/MondayNightFootball.mp4" type="video/webm">
+		        <source src="assets/videos/MondayNightFootball.mp4" type="video/mp4">
+		    </video>
+		</div>
 		<h1 id="header">
 			<span><img id="logo" src="assets/images/NFL-Logo.png"></span>
 			PLAYER PROFILE
@@ -36,7 +42,7 @@
 <!-- ===============MP Added=================== -->
 	<div class="panel panel-default" id="searchPanel">
 		<div class="panel-heading">
-			<h3>SELECT A PLAYER BELOW</h3>
+			<h2>SELECT A PLAYER BELOW</h2>
 		</div>
 		<div class="panel-body">
 			<table class="table">
@@ -92,28 +98,29 @@
 				    		<img id="headshot" src="" class="col-md-6">
 					    	<div id="playerInfo" class="col-md-6">
 						    	<h3 id="playerName"></h3>
-						    	<h3 id="playerTeam"></h3>
-						    	<h3 id="playerPosition"></h3>
-						    	<h3 id="playerNum"></h3>
-						    	<h3 id="playerHeight"></h3>
-						    	<h3 id="playerWeight"></h3>
-						    	<h3 id="playerAge"></h3>				    		
+						    	<h5 id="playerTeam"></h5>
+						    	<h5 id="playerPosition"></h5>
+						    	<h5 id="playerNum"></h5>
+						    	<h5 id="playerHeight"></h5>
+						    	<h5 id="playerWeight"></h5>
+						    	<h5 id="playerAge"></h5>				    		
 					    	</div>				    		
 				    	</div>
 				    </div>
 				</div>
 			</div>
 			<!-- stats panel -->
-			<div class="row">
+		<div class="row">
 				<div class="panel panel-default" id="stats">
 					<div class="panel-heading">
-				        <h1 class="panel-title">STATISTICS</h1>
+				        <h1 class="panel-title">PLAYER FANTASY INFO</h1>
 				    </div>
-				</div>
+				<div class="panel-body" id="playerStats"></div>
 			</div>
+		</div>
 			<!-- news panel -->
 			<div class="row">
-				<div class="panel panel-default" id="stats">
+				<div class="panel panel-default" id="news">
 					<div class="panel-heading">
 				        <h1 class="panel-title">NEWS FEED</h1>
 				    </div>
@@ -150,12 +157,12 @@
 			</div>
 			<!-- arrest record -->
 			<div class="row">
-					<div class="panel panel-default">
+				<div class="panel panel-default">
 					<div class="panel-heading">
 				        <h1 class="panel-title">ARREST RECORD</h1>
 				    </div>
 				    <div id="arrestRecord" class="panel-body">
-				    	<div id="map">
+				    	<div id="arrest">
 				    	</div>
 				    </div>
 				</div>
