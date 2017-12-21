@@ -144,6 +144,7 @@ function playerSearch() {
       $("#searchPanel").hide(1000);
       $("#arrestRecord").empty();
       $(".video").empty();
+      $("#playerStats").empty();
 
       var playerID = $(this).attr("id");
       var playerFN = $(this).attr("data-FN");
@@ -153,6 +154,7 @@ function playerSearch() {
 
       playerIndex(playerID);
       arrestRecord(playerFN, playerLN);
+
       
       // displayPlayerStats(playerFN, playerLN);
       // playerFantasyStats(playerFN, playerLN)
@@ -166,6 +168,7 @@ function playerSearch() {
       $("#searchPanel").hide(1000);
       $("#arrestRecord").empty();
        $(".video").empty();
+       $("#playerStats").empty();
 
       var playerID = $(this).attr("id");
       var playerFN = $(this).attr("data-FN");
