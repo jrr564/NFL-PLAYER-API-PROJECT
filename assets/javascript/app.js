@@ -7,8 +7,6 @@ var venueQueryURL = "https://app.ticketmaster.com/discovery/v2/venues.json?apike
 var scheduleQueryURL = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/full_game_schedule.json?date=since-yesterday"
 
 
-// var playerQueryURL04 = "http://api.fantasy.nfl.com/players/stats?statType=seasonStats&season=2017&format=json"
-
 
 var gameMoment;
 var gameLocation;
@@ -43,7 +41,7 @@ $(document).ready(function() {
 
 
     
-    playerseachMSF();
+    // playerseachMSF();
     playerSearch();
   })
 })
@@ -155,9 +153,6 @@ function playerSearch() {
       playerIndex(playerID);
       arrestRecord(playerFN, playerLN);
 
-      
-      // displayPlayerStats(playerFN, playerLN);
-      // playerFantasyStats(playerFN, playerLN)
 
       updateDataBase(playerFN, playerLN, playerTeam, playerPosition, playerID);
       
@@ -178,10 +173,6 @@ function playerSearch() {
 
       playerIndex(playerID);
       arrestRecord(playerFN, playerLN);
-      
-      // playerDisplay(playerID);
-      // displayPlayerStats(playerFN, playerLN);
-      // playerFantasyStats(playerFN, playerLN)
 
       //updateDataBase is not included since player already is in database
     })
@@ -218,8 +209,26 @@ function playerIndex(id) {
     var player_FantasyPoints = ftsy.FantasyPoints;
     var player_Receiving = ftsy.ReceivingYards;
     var player_Rushing = ftsy.RushingYards;
+    var player_Passing = ftsy.PassingYards;
     var player_Touchdowns = ftsy.Touchdowns;
+    var player_PassingTDs = ftsy.PassingTouchdowns;
+    var player_PassingPercentage = ftsy.PassingCompletionPercentage;
+    var player_Interceptions = ftsy.PassingInterceptions;
+    var player_QBrating = ftsy.PassingRating;
 
+    var player_RushingAttempts = ftsy.RushingAttempts;
+
+    var player_ReceptionPercentage = ftsy.ReceptionPercentage;
+    var player_Receptions = ftsy.Receptions;
+
+    var player_DefInterceptions = ftsy.Interceptions;
+
+    var player_Tackles = ftsy.Tackles;
+    var player_TacklesForLoss = ftsy.TackesForLoss;
+    var player_Sacks = ftsy.Sacks;
+
+    var player_ExtraPoints = ftsy.ExtraPointsMade;
+    var player_FieldGoal = ftsy.FieldGoalsMade;
 
 
     if (player_IMG === null) {
@@ -231,16 +240,40 @@ function playerIndex(id) {
 
     $("#playerName").text(player_FN + " " + player_LN);
     $("#playerTeam").text("Team: " + player_TeamAbbr);
-    $("#playerPosition").text("Position " + player_Position);
+    $("#playerPosition").text("Position: " + player_Position);
     $("#playerNum").text("#" + player_Num);
     $("#playerHeight").text("Height " + player_Height);
     $("#playerWeight").text("Weight " + player_Weight);
     $("#playerAge").text(player_Age + " Years Old");
 
-    $("#playerStats").append("<div><b>Total Fantasy Points: </b>" + player_FantasyPoints + "</div>");
-    $("#playerStats").append("<div><b>Total Touchdown: </b>" + player_Touchdowns + "</div>");
-    $("#playerStats").append("<div><b>Total Receiving Yards: </b>" + player_Receiving + "</div>");
-    $("#playerStats").append("<div><b>Total Rushing Yards: </b>" + player_Rushing + "</div>");
+    $("#playerStats").append("<div>Total Fantasy Points: " + player_FantasyPoints + "</div>");
+    
+
+    if (player_Position === "QB") {
+      $("#playerStats").append("<div>Passing Completion Percentage: " + player_PassingPercentage + "%</div>")
+      $("#playerStats").append("<div>Passing Touchdowns: " + player_PassingTDs + "</div>");
+      $("#playerStats").append("<div>Passing Yards: " + player_Passing + "</div>");
+      $("#playerStats").append("<div>Interceptions: " + player_Interceptions + "</div>");
+      $("#playerStats").append("<div>QB Rating: " + player_QBrating + "</div>");
+    }else if (player_Position === "RB") {
+      $("#playerStats").append("<div>Total Touchdown: " + player_Touchdowns + "</div>");
+      $("#playerStats").append("<div>Total Rushing Attempts: " + player_RushingAttempts + "</div>");
+      $("#playerStats").append("<div>Total Rushing Yards: " + player_Rushing + "</div>");
+      $("#playerStats").append("<div>Total Receiving Yards: " + player_Receiving + "</div>");
+    }else if (player_Position === "WR" || player_Position === "TE") {
+      $("#playerStats").append("<div>Total Touchdown: " + player_Touchdowns + "</div>");
+      $("#playerStats").append("<div>Total Rushing Yards: " + player_Rushing + "</div>");
+      $("#playerStats").append("<div>Total Receiving Yards: " + player_Receiving + "</div>");
+      $("#playerStats").append("<div>Receptions: " + player_Receptions + "%</div>");
+      $("#playerStats").append("<div>Reception Percentage: " + player_ReceptionPercentage + "%</div>");
+    }else if (player_Position === "OLB" || player_Position ===  "ILB" || player_Position === "LB" || player_Position === "DE" || player_Position === "DT" || player_Position === "NT" || player_Position === "SS" || player_Position === "FS" || player_Position === "CB" || player_Position === "DST") {
+      $("#playerStats").append("<div>Interceptions: " + player_DefInterceptions + "</div>");
+      $("#playerStats").append("<div>Total Tackles: " + player_Tackles + "</div>");
+      $("#playerStats").append("<div>Total Sacks: " + player_Sacks + "</div>");
+    }else if (player_Position === "K") {
+      $("#playerStats").append("<div>Extra Points Made: " + player_ExtraPoints + "</div>");
+      $("#playerStats").append("<div>Field Goals Made: " + player_FieldGoal + "</div>");
+   }
 
     runPlayerNews(player_ID);
     searchAddress(player_TeamAbbr);
@@ -278,35 +311,35 @@ function runPlayerNews(id) {
 
 
 //Player Seach API
-function playerseachMSF() {
-  var searchPlayerFN = $("#searchFN").val().trim(); 
-  var searchPlayerLN = $("#searchLN").val().trim();
-  var searchedPlayer = "";
+// function playerseachMSF() {
+//   var searchPlayerFN = $("#searchFN").val().trim(); 
+//   var searchPlayerLN = $("#searchLN").val().trim();
+//   var searchedPlayer = "";
 
-  //allows user to only search for last name and have fist name be optional
-  if (searchPlayerFN == 0) {
-    var searchedPlayer = searchPlayerLN;
-  } else {
-    var searchedPlayer = searchPlayerFN + "-" + searchPlayerLN;
-  }
+//   //allows user to only search for last name and have fist name be optional
+//   if (searchPlayerFN == 0) {
+//     var searchedPlayer = searchPlayerLN;
+//   } else {
+//     var searchedPlayer = searchPlayerFN + "-" + searchPlayerLN;
+//   }
 
-  var playerQueryURL = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/active_players.json?" + "player=" + searchedPlayer;
-  var playerQueryURL02 = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/cumulative_player_stats.JSON";
-  var playerQueryURL03 = "https://api.fantasydata.net/v3/nfl/stats/JSON/NewsByPlayerID/{playerid}"
+//   var playerQueryURL = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/active_players.json?" + "player=" + searchedPlayer;
+//   var playerQueryURL02 = "https://api.mysportsfeeds.com/v1.1/pull/nfl/2017-regular/cumulative_player_stats.JSON";
+//   var playerQueryURL03 = "https://api.fantasydata.net/v3/nfl/stats/JSON/NewsByPlayerID/{playerid}"
 
-  $.ajax({
-    type: "GET",
-    url: playerQueryURL,
-    dataType: 'json',
-    async: true,
-    headers: {
-    "Authorization": "Basic " + btoa("chen" + ":" + "testing")
-  },
-  }).done(function(response) {
-    console.log("PlayerSearch MSF - " + playerQueryURL);
+//   $.ajax({
+//     type: "GET",
+//     url: playerQueryURL,
+//     dataType: 'json',
+//     async: true,
+//     headers: {
+//     "Authorization": "Basic " + btoa("chen" + ":" + "testing")
+//   },
+//   }).done(function(response) {
+//     console.log("PlayerSearch MSF - " + playerQueryURL);
 
-  }) //done 
-}
+//   }) //done 
+// }
 
 
 
@@ -547,23 +580,7 @@ gameData.ref().on("child_added", function(childSnapshot, prevChildKey) {
   var position = childSnapshot.val().position;
   var playerID = childSnapshot.val().playerID;
 
-  // $("#tableBody td").each(function(index) {
-  //   if (index === "Tom Brady") {
-  //     console.log("name already exists");
-  //   } else {
-  //     console.log("name added");
-  //   }
-  // });
 
-  // $("#tableBody").find("tr").each(function(index) {
-  //   if (index === "Tom Brady") {
-  //     console.log("name already exists");
-  //   } else {
-  //     console.log("name added");
-  //   }
-  // })
-
-  // console.log($("#tableBody").attr("td"));
 
   $("#tableBody")
     .append($("<tr>")
