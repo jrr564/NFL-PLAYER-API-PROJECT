@@ -230,6 +230,8 @@ function playerIndex(id) {
     var player_ExtraPoints = ftsy.ExtraPointsMade;
     var player_FieldGoal = ftsy.FieldGoalsMade;
 
+    var player_GameCount = ftsy.Played;
+
 
     if (player_IMG === null) {
       $("#headshot").attr("src", "assets/images/placeholder.png");
@@ -255,7 +257,7 @@ function playerIndex(id) {
       $("#playerStats").append("<div>Passing Yards: " + player_Passing + "</div>");
       $("#playerStats").append("<div>Interceptions: " + player_Interceptions + "</div>");
       $("#playerStats").append("<div>QB Rating: " + player_QBrating + "</div>");
-    }else if (player_Position === "RB") {
+    }else if (player_Position === "RB" || player_Position === "FB") {
       $("#playerStats").append("<div>Total Touchdown: " + player_Touchdowns + "</div>");
       $("#playerStats").append("<div>Total Rushing Attempts: " + player_RushingAttempts + "</div>");
       $("#playerStats").append("<div>Total Rushing Yards: " + player_Rushing + "</div>");
@@ -264,7 +266,7 @@ function playerIndex(id) {
       $("#playerStats").append("<div>Total Touchdown: " + player_Touchdowns + "</div>");
       $("#playerStats").append("<div>Total Rushing Yards: " + player_Rushing + "</div>");
       $("#playerStats").append("<div>Total Receiving Yards: " + player_Receiving + "</div>");
-      $("#playerStats").append("<div>Receptions: " + player_Receptions + "%</div>");
+      $("#playerStats").append("<div>Receptions: " + player_Receptions + "</div>");
       $("#playerStats").append("<div>Reception Percentage: " + player_ReceptionPercentage + "%</div>");
     }else if (player_Position === "OLB" || player_Position ===  "ILB" || player_Position === "LB" || player_Position === "DE" || player_Position === "DT" || player_Position === "NT" || player_Position === "SS" || player_Position === "FS" || player_Position === "CB" || player_Position === "DST") {
       $("#playerStats").append("<div>Interceptions: " + player_DefInterceptions + "</div>");
@@ -273,6 +275,8 @@ function playerIndex(id) {
     }else if (player_Position === "K") {
       $("#playerStats").append("<div>Extra Points Made: " + player_ExtraPoints + "</div>");
       $("#playerStats").append("<div>Field Goals Made: " + player_FieldGoal + "</div>");
+   }else if (player_Position === "G" || player_Position === "OT") {
+      $("#playerStats").append("<div>Number of Games Played: " + player_GameCount + "</div>");
    }
 
     runPlayerNews(player_ID);
