@@ -36,10 +36,6 @@ h4 {
 	text-decoration: underline;
 }
 
-<<<<<<< HEAD
-=======
-h5
-
 #search {
 	padding: 0 20px 10px;
 	font-size: 22px;
@@ -50,7 +46,7 @@ h5
 	 color: #333;
 }
 
->>>>>>> 583afdfa384e19f4ffc217a86593a2209eaea227
+
 .panel-heading {
 	padding: 5px 15px 5px;
 }
@@ -113,7 +109,7 @@ h5
 @media screen and (max-width: 940px) {
 
 #header {
-	font-size: 70px;
+	font-size: 60px;
 }
 
 }
